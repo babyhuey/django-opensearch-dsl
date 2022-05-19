@@ -110,7 +110,7 @@ class DocumentRegistry:
         """
         Get all models in the registry
         """
-        return set(iterkeys(self._models))
+        return set(iter(self._models))
 
     def get_indices(self):
         """Get all indices in the registry."""
