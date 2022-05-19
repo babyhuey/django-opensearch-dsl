@@ -6,9 +6,10 @@ from django_opensearch_dsl.registries import registry
 
 
 class IndexTestCase(SimpleTestCase):
-
     def setUp(self) -> None:
-        call_command("opensearch", "index", "delete", force=True, ignore_error=True, verbosity=0)
+        call_command(
+            "opensearch", "index", "delete", force=True, ignore_error=True, verbosity=0
+        )
 
     def test_index_creation_all(self):
         indices = registry.get_indices()
@@ -26,7 +27,12 @@ class IndexTestCase(SimpleTestCase):
         self.assertFalse(country_document._index.exists())
         self.assertFalse(event_document._index.exists())
         call_command(
-            "opensearch", "index", "create", country_document.Index.name, force=True, verbosity=0
+            "opensearch",
+            "index",
+            "create",
+            country_document.Index.name,
+            force=True,
+            verbosity=0,
         )
         self.assertFalse(continent_document._index.exists())
         self.assertTrue(country_document._index.exists())
@@ -41,8 +47,13 @@ class IndexTestCase(SimpleTestCase):
         self.assertFalse(country_document._index.exists())
         self.assertFalse(event_document._index.exists())
         call_command(
-            "opensearch", "index", "create", country_document.Index.name, event_document.Index.name,
-            force=True, verbosity=0
+            "opensearch",
+            "index",
+            "create",
+            country_document.Index.name,
+            event_document.Index.name,
+            force=True,
+            verbosity=0,
         )
         self.assertFalse(continent_document._index.exists())
         self.assertTrue(country_document._index.exists())
@@ -50,13 +61,33 @@ class IndexTestCase(SimpleTestCase):
 
     def test_index_creation_error(self):
         country_document = CountryDocument()
-        call_command("opensearch", "index", "create", country_document.Index.name, force=True, verbosity=0)
+        call_command(
+            "opensearch",
+            "index",
+            "create",
+            country_document.Index.name,
+            force=True,
+            verbosity=0,
+        )
 
         call_command(
-            "opensearch", "index", "create", country_document.Index.name, force=True, verbosity=0, ignore_error=True
+            "opensearch",
+            "index",
+            "create",
+            country_document.Index.name,
+            force=True,
+            verbosity=0,
+            ignore_error=True,
         )
         with self.assertRaises(SystemExit):
-            call_command("opensearch", "index", "create", country_document.Index.name, force=True, verbosity=0)
+            call_command(
+                "opensearch",
+                "index",
+                "create",
+                country_document.Index.name,
+                force=True,
+                verbosity=0,
+            )
 
     def test_index_deletion_all(self):
         call_command("opensearch", "index", "create", force=True, verbosity=0)
@@ -76,7 +107,12 @@ class IndexTestCase(SimpleTestCase):
         self.assertTrue(country_document._index.exists())
         self.assertTrue(event_document._index.exists())
         call_command(
-            "opensearch", "index", "delete", country_document.Index.name, force=True, verbosity=0
+            "opensearch",
+            "index",
+            "delete",
+            country_document.Index.name,
+            force=True,
+            verbosity=0,
         )
         self.assertTrue(continent_document._index.exists())
         self.assertFalse(country_document._index.exists())
@@ -92,8 +128,13 @@ class IndexTestCase(SimpleTestCase):
         self.assertTrue(country_document._index.exists())
         self.assertTrue(event_document._index.exists())
         call_command(
-            "opensearch", "index", "delete", country_document.Index.name, event_document.Index.name,
-            force=True, verbosity=0
+            "opensearch",
+            "index",
+            "delete",
+            country_document.Index.name,
+            event_document.Index.name,
+            force=True,
+            verbosity=0,
         )
         self.assertTrue(continent_document._index.exists())
         self.assertFalse(country_document._index.exists())
@@ -103,26 +144,49 @@ class IndexTestCase(SimpleTestCase):
         country_document = CountryDocument()
 
         call_command(
-            "opensearch", "index", "delete", country_document.Index.name, force=True, verbosity=0, ignore_error=True
+            "opensearch",
+            "index",
+            "delete",
+            country_document.Index.name,
+            force=True,
+            verbosity=0,
+            ignore_error=True,
         )
         with self.assertRaises(SystemExit):
-            call_command("opensearch", "index", "delete", country_document.Index.name, force=True, verbosity=0)
+            call_command(
+                "opensearch",
+                "index",
+                "delete",
+                country_document.Index.name,
+                force=True,
+                verbosity=0,
+            )
 
     def test_index_rebuild_two(self):
         continent_document = ContinentDocument()
         country_document = CountryDocument()
         event_document = EventDocument()
         call_command(
-            "opensearch", "index", "create", continent_document.Index.name, event_document.Index.name, force=True,
-            verbosity=0
+            "opensearch",
+            "index",
+            "create",
+            continent_document.Index.name,
+            event_document.Index.name,
+            force=True,
+            verbosity=0,
         )
 
         self.assertTrue(continent_document._index.exists())
         self.assertFalse(country_document._index.exists())
         self.assertTrue(event_document._index.exists())
         call_command(
-            "opensearch", "index", "rebuild", country_document.Index.name, event_document.Index.name, force=True,
-            verbosity=0
+            "opensearch",
+            "index",
+            "rebuild",
+            country_document.Index.name,
+            event_document.Index.name,
+            force=True,
+            verbosity=0,
         )
         self.assertTrue(continent_document._index.exists())
         self.assertTrue(country_document._index.exists())

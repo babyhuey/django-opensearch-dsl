@@ -6,7 +6,7 @@ from opensearch_dsl.connections import connections
 
 
 class DEDConfig(AppConfig):
-    name = 'django_opensearch_dsl'
+    name = "django_opensearch_dsl"
     verbose_name = "django-opensearch-dsl"
     signal_processor = None
 
@@ -18,23 +18,23 @@ class DEDConfig(AppConfig):
         if not self.signal_processor:
             signal_processor_path = getattr(
                 settings,
-                'OPENSEARCH_DSL_SIGNAL_PROCESSOR',
-                'django_opensearch_dsl.signals.RealTimeSignalProcessor'
+                "OPENSEARCH_DSL_SIGNAL_PROCESSOR",
+                "django_opensearch_dsl.signals.RealTimeSignalProcessor",
             )
             signal_processor_class = import_string(signal_processor_path)
             self.signal_processor = signal_processor_class(connections)
 
     @classmethod
     def autosync_enabled(cls):
-        return getattr(settings, 'OPENSEARCH_DSL_AUTOSYNC', True)
+        return getattr(settings, "OPENSEARCH_DSL_AUTOSYNC", True)
 
     @classmethod
     def default_index_settings(cls):
-        return getattr(settings, 'OPENSEARCH_DSL_INDEX_SETTINGS', {})
+        return getattr(settings, "OPENSEARCH_DSL_INDEX_SETTINGS", {})
 
     @classmethod
     def auto_refresh_enabled(cls):
-        return getattr(settings, 'OPENSEARCH_DSL_AUTO_REFRESH', False)
+        return getattr(settings, "OPENSEARCH_DSL_AUTO_REFRESH", False)
 
     @classmethod
     def default_queryset_pagination(cls):
