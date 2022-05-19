@@ -98,6 +98,12 @@ class DocumentRegistry:
         """
         self.update(instance, action='delete', **kwargs)
 
+    def get_models(self):
+        """
+        Get all models in the registry
+        """
+        return set(iterkeys(self._models))
+
     def get_indices(self):
         """Get all indices in the registry."""
         return set(self._indices.keys())
